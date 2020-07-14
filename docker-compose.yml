@@ -12,10 +12,10 @@ services:
       - gitlab_log:/var/log/gitlab
 
   jenkins:
-    image: jenkins/jenkins:lts
+    build:
+      context: jenkins
     ports:
       - "4000:8080"
-      #- "4001:50000"
     volumes:
       - jenkins_data:/var/jenkins_home
 
