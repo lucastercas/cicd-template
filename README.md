@@ -34,3 +34,6 @@ e mudar o tipo de credencial para `GitLab API Token`, e  inserir o token
 do passo anterior criado no GitLab.
 
 Criar um projeto no Jenkins, do tipo freestyle. 
+
+## Referências
+1. https://www.jenkins.io/doc/tutorials/build-a-java-app-with-maven/
