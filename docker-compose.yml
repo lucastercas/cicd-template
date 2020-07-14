@@ -1,0 +1,35 @@
+version: "3.7"
+
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:13.1.4-ce.0
+    ports:
+      - "5000:80"
+      - "5001:443"
+      - "5002:22"
+    volumes:
+      - gitlab_data:/var/opt/gitlab
+      - gitlab_log:/var/log/gitlab
+
+  jenkins:
+    image: jenkins/jenkins:lts
+    ports:
+      - "4000:8080"
+      #- "4001:50000"
+    volumes:
+      - jenkins_data:/var/jenkins_home
+
+  sonarqube:
+    image: sonarqube:8.4.0-community
+    ports:
+      - "7000:9000"
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_log:/opt/sonarqube/logs
+
+volumes:
+  gitlab_log:
+  gitlab_data:
+  jenkins_data:
+  sonarqube_data:
+  sonarqube_log:
