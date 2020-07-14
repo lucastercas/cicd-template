@@ -13,12 +13,25 @@ services:
       - gitlab_log:/var/log/gitlab
 
   jenkins:
-    build:
-      context: jenkins
+    image: jenkinsci/blueocean
     ports:
       - "4000:8080"
     volumes:
       - jenkins_data:/var/jenkins_home
+      - jenkins_docker_certs:/certs/client
+    environment:
+      DOCKER_HOST: "tcp://docker:2376"
+      DOCKER_CERT_PATH: "/certs/client"
+      DOCKER_TLS_VERIFY: 1
+
+  docker:
+    image: docker:dind
+    privileged: true
+    volumes:
+      - jenkins_data:/var/jenkins_home
+      - jenkins_docker_certs:/certs/client
+    environment:
+      DOCKER_TLS_CERTDIR: /certs
 
   sonarqube:
     image: sonarqube:8.4.0-community
@@ -33,5 +46,6 @@ volumes:
   gitlab_log:
   gitlab_data:
   jenkins_data:
+  jenkins_docker_certs:
   sonarqube_data:
   sonarqube_log:

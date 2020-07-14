@@ -2,12 +2,12 @@
 
 build:
 	docker run --rm --name maven_build \
-		-v "$(CURDIR)/modulo-1":/usr/src/mymaven \
+		-v "$(CURDIR)":/usr/src/mymaven \
 		-w /usr/src/mymaven maven:latest \
 		mvn clean install -e -X
 
 test:
 	docker run --rm --name maven_build \
-		-v "$(CURDIR)/modulo-1":/usr/src/mymaven \
+		-v "$(CURDIR)":/usr/src/mymaven \
 		-w /usr/src/mymaven maven:latest \
 		mvn test
