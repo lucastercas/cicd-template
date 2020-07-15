@@ -1,4 +1,4 @@
-.PHONY: build_jar test scan build_image push_image
+.PHONY: build_jar test scan build_image push_image deploy
 
 build:
 	@docker run --rm \
@@ -25,3 +25,6 @@ build_image:
 
 push_image:
 	@docker push lucastercas/spring
+
+deploy:
+	ansible-playbook -i ansible/hosts ansible/site.yml -v
