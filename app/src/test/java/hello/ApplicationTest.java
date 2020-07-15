@@ -1,21 +1,12 @@
 package hello;
 
-import static org.junit.Assert.assertTrue;
-
+import org.junit.Assert;
 import org.junit.Test;
 
-/**
- * Unit test for simple App.
- */
-public class ApplicationTest 
-{
-    /**
-     * Rigorous Test :-)
-     */
+public class ApplicationTest {
     @Test
-    public void shouldAnswerWithTrue()
-    {
-        // Mudar
-        assertTrue( true );
+    public void shouldAnswerWithTrue() {
+        int sum = 1 + 1;
+        Assert.assertEquals(sum, 2);
     }
 }

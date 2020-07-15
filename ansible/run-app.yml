@@ -1,0 +1,5 @@
+---
+- name: Run App
+  hosts: local
+  roles:
+    - modulo.run

@@ -11,6 +11,12 @@ services:
       - gitlab_config:/etc/gitlab
       - gitlab_data:/var/opt/gitlab
       - gitlab_log:/var/log/gitlab
+    deploy:
+      resources:
+        limits:
+          memory: 4096M
+        reservations:
+          memory: 2048M
 
   jenkins:
     # image: jenkins/jenkins
@@ -27,6 +33,12 @@ services:
       DOCKER_TLS_VERIFY: 1
       DOCKER_USER: ${DOCKER_USER}
       DOCKER_PASSWORD: ${DOCKER_PASSWORD}
+    deploy:
+      resources:
+        limits:
+          memory: 2048M
+        reservations:
+          memory: 2048M
 
   docker:
     image: docker:19.03.12-dind
@@ -45,6 +57,12 @@ services:
     volumes:
       - sonarqube_data:/opt/sonarqube/data
       - sonarqube_log:/opt/sonarqube/logs
+    deploy:
+      resources:
+        limits:
+          memory: 2048M
+        reservations:
+          memory: 2048M
 
 volumes:
   gitlab_config:
