@@ -25,18 +25,24 @@ pipeline {
             }
         }
         stage('Sonarqube') {
-            sh 'echo sonarqube'
+            steps {
+                sh 'mvn sonar:sonar -Dsonar.projectKey=org.springframework:gs-spring-boot-docker -Dsonar.host.url=http://sonarqube -Dsonar.login=9427f57aaca2d21937228b06cc86f9eae30c19a8'
+            }
         }
         stage('Docker Login') {
-            sh 'echo docker login'
+            steps {
+                sh 'echo docker login'
+            }
         }
         stage('Push Image') {
-          sh 'echo pushing image'
+            steps {
+                sh 'echo pushing image'
+            }
         }
     }
     post {
-      always {
-        archiveArtifacts artifacts: "target/*.jar", fingerprint: true
-      }
+        always {
+            archiveArtifacts artifacts: "target/*.jar", fingerprint: true
+        }
     }
 }
