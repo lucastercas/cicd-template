@@ -1,29 +1,22 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3-alpine' 
-            args '-v /root/.m2:/root/.m2' 
-        }
-    }
+    agent any
     environment {
-        DOCKER_USER = 'lucastercas'
-        DOCKER_PASSWORD = 'deZzBU4/@2'
         PROJECT_KEY = 'org.springframework:gs-spring-boot-docker'
         SONAR_LOGIN = 'e6f696687d9b343872358aaf19371fe5dfdca63f'
-        SONAR_URL = 'http://sonarqube'
+        SONAR_URL = 'http://sonarqube:9000'
     }
     options {
         skipStagesAfterUnstable()
     }
     stages {
-        stage('Build') { 
+        stage('Build Package') {
             steps {
-                sh 'mvn -B -DskipTests clean package' 
+                sh "make build"
             }
         }
         stage('Test') {
             steps {
-                sh 'mvn test'
+                sh 'make test'
             }
             post {
                 always {
@@ -32,19 +25,23 @@ pipeline {
             }
         }
         stage('Sonarqube') {
-            agent none
             steps {
                 sh "mvn sonar:sonar -Dsonar.projectKey=${PROJECT_KEY} -Dsonar.host.url=${SONAR_URL} -Dsonar.login=${SONAR_LOGIN}"
             }
         }
         stage('Docker Login') {
             steps {
-                sh 'echo docker login'
+                sh "docker login -u ${DOCKER_USER} -p ${DOCKER_PASSWORD}"
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                sh 'make build_image'
             }
         }
         stage('Push Image') {
             steps {
-                sh 'echo pushing image'
+                sh 'make push_image'
             }
         }
     }

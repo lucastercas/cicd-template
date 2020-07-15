@@ -13,7 +13,9 @@ services:
       - gitlab_log:/var/log/gitlab
 
   jenkins:
-    image: jenkinsci/blueocean
+    # image: jenkins/jenkins
+    build:
+      context: jenkins
     ports:
       - "4000:8080"
     volumes:
@@ -23,9 +25,11 @@ services:
       DOCKER_HOST: "tcp://docker:2376"
       DOCKER_CERT_PATH: "/certs/client"
       DOCKER_TLS_VERIFY: 1
+      DOCKER_USER: ${DOCKER_USER}
+      DOCKER_PASSWORD: ${DOCKER_PASSWORD}
 
   docker:
-    image: docker:dind
+    image: docker:19.03.12-dind
     # alias: docker
     privileged: true
     volumes:

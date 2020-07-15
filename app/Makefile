@@ -1,38 +1,27 @@
-.PHONY: build test
+.PHONY: build test scan build_image push_image
+
+build_jar:
+	docker run --rm \
+		-v "$(CURDIR)":/usr/src/mymaven \
+		-v /root/.m2:/root/.m2 \
+		-w /usr/src/mymaven maven:latest \
+		mvn -B -DskipTests clean package
 
 test:
-	mvn test
-
-build:
-	mvn -B -DskipTests clean package
+	docker run --rm \
+		-v "$(CURDIR)":/usr/src/mymaven \
+		-v /root/.m2:/root/.m2 \
+		-w /usr/src/mymaven maven:latest \
+		mvn test
 
 scan:
 	mvn sonar:sonar \
 			-Dsonar.projectKey=org.springframework:gs-spring-boot-docker \
-			-Dsonar.host.url=http://localhost:7000 \
-			-Dsonar.login=9427f57aaca2d21937228b06cc86f9eae30c19a8
+			-Dsonar.host.url=http://$(SONAR_HOST) \
+			-Dsonar.login=$(SONAR_LOGIN)
 
 build_image:
 	docker build -t lucastercas/spring .
 
-docker_push:
+push_image:
 	docker push lucastercas/spring
-
-docker_build_jar:
-	docker run --rm \
-		-v "$(CURDIR)":/usr/src/mymaven \
-		-w /usr/src/mymaven maven:latest \
-		mvn clean install -X
-
-docker_ test:
-	docker run --rm \
-		-v "$(CURDIR)":/usr/src/mymaven \
-		-w /usr/src/mymaven maven:latest \
-		mvn test
-
-docker_run_scan:
-	docker run --rm \
-		maven:latest mvn sonar:sonar \
-			-Dsonar.projectKey=org.springframework:gs-spring-boot-docker \
-			-Dsonar.host.url=http://localhost:7000 \
-			-Dsonar.login=9427f57aaca2d21937228b06cc86f9eae30c19a8
