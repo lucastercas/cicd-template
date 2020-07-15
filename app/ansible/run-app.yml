@@ -1,5 +1,5 @@
 ---
 - name: Run App
-  hosts: develop
+  hosts: local
   roles:
     - modulo.run
