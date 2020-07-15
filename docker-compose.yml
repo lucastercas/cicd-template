@@ -11,8 +11,6 @@ services:
       - gitlab_config:/etc/gitlab
       - gitlab_data:/var/opt/gitlab
       - gitlab_log:/var/log/gitlab
-    networks:
-      - default_net
     deploy:
       resources:
         limits:
@@ -35,8 +33,6 @@ services:
       DOCKER_TLS_VERIFY: 1
       DOCKER_USER: ${DOCKER_USER}
       DOCKER_PASSWORD: ${DOCKER_PASSWORD}
-    networks:
-      - default_net
     deploy:
       resources:
         limits:
@@ -51,8 +47,6 @@ services:
     volumes:
       - jenkins_data:/var/jenkins_home
       - jenkins_docker_certs:/certs/client
-    networks:
-      - default_net
     environment:
       DOCKER_TLS_CERTDIR: /certs
 
@@ -63,8 +57,6 @@ services:
     volumes:
       - sonarqube_data:/opt/sonarqube/data
       - sonarqube_log:/opt/sonarqube/logs
-    networks:
-      - default_net
     deploy:
       resources:
         limits:
@@ -80,8 +72,3 @@ volumes:
   jenkins_docker_certs:
   sonarqube_data:
   sonarqube_log:
-
-
-networks:
-  default_net:
-    external: true
