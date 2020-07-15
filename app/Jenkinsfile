@@ -5,6 +5,13 @@ pipeline {
             args '-v /root/.m2:/root/.m2' 
         }
     }
+    environment {
+        DOCKER_USER = 'lucastercas'
+        DOCKER_PASSWORD = 'deZzBU4/@2'
+        PROJECT_KEY = 'org.springframework:gs-spring-boot-docker'
+        SONAR_LOGIN = 'e6f696687d9b343872358aaf19371fe5dfdca63f'
+        SONAR_URL = 'http://sonarqube'
+    }
     options {
         skipStagesAfterUnstable()
     }
@@ -25,8 +32,9 @@ pipeline {
             }
         }
         stage('Sonarqube') {
+            agent none
             steps {
-                sh 'mvn sonar:sonar -Dsonar.projectKey=org.springframework:gs-spring-boot-docker -Dsonar.host.url=http://sonarqube -Dsonar.login=9427f57aaca2d21937228b06cc86f9eae30c19a8'
+                sh "mvn sonar:sonar -Dsonar.projectKey=${PROJECT_KEY} -Dsonar.host.url=${SONAR_URL} -Dsonar.login=${SONAR_LOGIN}"
             }
         }
         stage('Docker Login') {
