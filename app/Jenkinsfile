@@ -24,8 +24,14 @@ pipeline {
                 }
             }
         }
-        stage('Deploy') {
-          sh 'ls'
+        stage('Sonarqube') {
+            sh 'echo sonarqube'
+        }
+        stage('Docker Login') {
+            sh 'echo docker login'
+        }
+        stage('Push Image') {
+          sh 'echo pushing image'
         }
     }
     post {
