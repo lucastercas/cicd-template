@@ -9,15 +9,24 @@
 
 ### Configurando os Serviços
 
-## Gerenciando os Serviços
+1. Configurar Jenkins
+Para o jenkins, a primeira vez vai pedir uma chave, tem o comando
+`make get_key` no Makefile desse repositório, que vai exibir essa chave.
+Após inserir a chave, clicar em `Install suggested plugins`, e depois
+criar um usuário e seguir as telas.
 
-### Conectando `GitLab` e `Jenkins`
+2. Configurar GitLab
+Criar a senha pro usuário `root`
 
-1. Criar Projeto no GitLab
+3. Criar Projeto no GitLab
+Na interface do GitLab, clicar em `Create a Project`, botar o nome do
+projeto, e clicar em `Create project`.
+
+Para adicionar o código da aplicação para o repositório:
 ```bash
-$ ch app
+$ cd app
 $ git init
-$ git remote add origin http://localhost:5000/...
+$ git remote add origin http://localhost:5000/root/<project-name>.git
 $ git add .
 $ git commit -m "First Commit"
 $ git push origin master
