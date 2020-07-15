@@ -26,6 +26,7 @@ services:
 
   docker:
     image: docker:dind
+    # alias: docker
     privileged: true
     volumes:
       - jenkins_data:/var/jenkins_home

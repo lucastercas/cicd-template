@@ -13,8 +13,9 @@
 
 ### Conectando `GitLab` e `Jenkins`
 
-Criar um projeto no GitLab, e adicionar o diretorio modulo-1 no repositorion
+1. Criar Projeto no GitLab
 ```bash
+$ ch app
 $ git init
 $ git remote add origin http://localhost:5000/...
 $ git add .
@@ -22,18 +23,15 @@ $ git commit -m "First Commit"
 $ git push origin master
 ```
 
-Após criar o repositório e adicionar código nele, criar um `Access Token`,
-em *Settings* -> *Access Tokens*, marcar a opção `api`, inserir o nome, e 
-clicar em `create personal access token`, isso vai gerar um token. 
-*Copie o token para algum lugar*.
+2. Adicionar Pipeline no Jenkins
 
-Na interface do Jenkins, ir para *Gerenciar Jenkins* -> *Configurar o sistema*.
-Na opção GitLab, inserir qualquer nome para o nome da conexão, na url inserir
-`http:gitlab` e para as credenciais, clicar em adicionar, selecionar jenkins, 
-e mudar o tipo de credencial para `GitLab API Token`, e  inserir o token
-do passo anterior criado no GitLab.
+3. Rodar Pipeline
 
-Criar um projeto no Jenkins, do tipo freestyle. 
+4. Configurar WebHook com o GitLab
+
+5. Configurar SonarQube
+
 
 ## Referências
-1. https://www.jenkins.io/doc/tutorials/build-a-java-app-with-maven/
+1. [Java App with Maven](https://www.jenkins.io/doc/tutorials/build-a-java-app-with-maven/)
+2. 
