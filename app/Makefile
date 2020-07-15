@@ -1,18 +1,18 @@
 .PHONY: build_jar test scan build_image push_image
 
-build_jar:
+build:
 	@docker run --rm \
 		-v "$(CURDIR)":/usr/src/mymaven \
 		-v /root/.m2:/root/.m2 \
-		-w /usr/src/mymaven maven:latest \
-		mvn -B -DskipTests clean package
+		-w /usr/src/mymaven \
+		maven:latest mvn -B -DskipTests clean package
 
 test:
 	@docker run --rm \
 		-v "$(CURDIR)":/usr/src/mymaven \
 		-v /root/.m2:/root/.m2 \
-		-w /usr/src/mymaven maven:latest \
-		mvn test
+		-w /usr/src/mymaven \
+		maven:latest mvn test
 
 scan:
 	@mvn sonar:sonar \
