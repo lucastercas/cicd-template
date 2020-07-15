@@ -3,6 +3,7 @@ version: "3.7"
 services:
   gitlab:
     image: gitlab/gitlab-ce:13.1.4-ce.0
+    restart: always
     ports:
       - "5000:80"
       - "5001:443"
@@ -14,12 +15,14 @@ services:
     deploy:
       resources:
         limits:
-          memory: 4096M
+          memory: 2048M
+          cpus: '4'
         reservations:
           memory: 2048M
 
   jenkins:
     # image: jenkins/jenkins
+    restart: always
     build:
       context: jenkins
     ports:
@@ -36,22 +39,32 @@ services:
     deploy:
       resources:
         limits:
-          memory: 2048M
+          memory: 1024M
+          cpus: '1'
         reservations:
-          memory: 2048M
+          memory: 1024M
 
   docker:
     image: docker:19.03.12-dind
+    restart: always
     # alias: docker
     privileged: true
     volumes:
       - jenkins_data:/var/jenkins_home
       - jenkins_docker_certs:/certs/client
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+          cpus: '1'
+        reservations:
+          memory: 1024M
     environment:
       DOCKER_TLS_CERTDIR: /certs
 
   sonarqube:
     image: sonarqube:8.4.0-community
+    restart: always
     ports:
       - "7000:9000"
     volumes:
@@ -61,6 +74,7 @@ services:
       resources:
         limits:
           memory: 2048M
+          cpus: '1'
         reservations:
           memory: 2048M
 

@@ -1,7 +1,7 @@
 .PHONY: up get_key install_plugins run_app
 
 up:
-	@docker-compose up
+	@docker-compose --compatibility up --build
 
 get_key:
 	@docker-compose exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
