@@ -27,4 +27,4 @@ push_image:
 	@docker push lucastercas/spring
 
 deploy:
-	python3 $(which ansible-playbook) -i ansible/hosts ansible/site.yml -v
+	ansible-playbook -i ansible/hosts ansible/site.yml -v
