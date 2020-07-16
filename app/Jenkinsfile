@@ -1,0 +1,66 @@
+pipeline {
+    agent any
+    environment {
+        PROJECT_KEY = 'org.springframework:gs-spring-boot-docker'
+        SONAR_URL = 'http://sonarqube:9000'
+    }
+    options {
+        skipStagesAfterUnstable()
+    }
+    stages {
+        stage('Build Package') {
+            steps {
+                sh "make build"
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'make test'
+            }
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml'
+                }
+            }
+        }
+        stage('SonarQube Analisys') {
+            steps {
+                withSonarQubeEnv('Local SonarQube') {
+                    sh "mvn clean package sonar:sonar -Dsonar.projectKey=${PROJECT_KEY} -Dsonar.host.url=${SONAR_URL} -Dsonar.login=admin -Dsonar.password=admin"
+                }
+            }
+        }
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 2, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+        stage('Docker Login') {
+            steps {
+                sh "docker login -u ${DOCKER_USER} -p ${DOCKER_PASSWORD}"
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                sh 'make build_image'
+            }
+        }
+        stage('Push Image') {
+            steps {
+                sh 'make push_image'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh 'make deploy'
+            }
+        }
+    }
+    post {
+        always {
+            archiveArtifacts artifacts: "target/*.jar", fingerprint: true
+        }
+    }
+}

@@ -1,0 +1,11 @@
+---
+- name: Run App Container
+  docker_container:
+    name: my-app
+    image: lucastercas/spring
+    memory: 1024M
+    memory_swap: 1024M
+    exposed_ports:
+      - 8080
+    ports:
+      - "8080:8080"

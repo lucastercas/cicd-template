@@ -3,6 +3,7 @@ version: "3.7"
 services:
   gitlab:
     image: gitlab/gitlab-ce:13.1.4-ce.0
+    restart: always
     ports:
       - "5000:80"
       - "5001:443"
@@ -11,37 +12,78 @@ services:
       - gitlab_config:/etc/gitlab
       - gitlab_data:/var/opt/gitlab
       - gitlab_log:/var/log/gitlab
+    deploy:
+      resources:
+        limits:
+          memory: 3072M
+          cpus: '4'
+        reservations:
+          memory: 2048M
 
   jenkins:
+    image: lucastercas/jenkins
+    restart: always
     build:
       context: jenkins
     ports:
       - "4000:8080"
     volumes:
       - jenkins_data:/var/jenkins_home
+      - jenkins_docker_certs:/certs/client
+    environment:
+      DOCKER_HOST: "tcp://docker:2376"
+      DOCKER_CERT_PATH: "/certs/client"
+      DOCKER_TLS_VERIFY: 1
+      DOCKER_USER: ${DOCKER_USER}
+      DOCKER_PASSWORD: ${DOCKER_PASSWORD}
+      SONAR_TOKEN: ${SONAR_TOKEN}
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+          cpus: '2'
+        reservations:
+          memory: 1024M
+
+  docker:
+    image: docker:19.03.12-dind
+    restart: always
+    # alias: docker
+    privileged: true
+    volumes:
+      - jenkins_data:/var/jenkins_home
+      - jenkins_docker_certs:/certs/client
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+          cpus: '1'
+        reservations:
+          memory: 1024M
+    environment:
+      DOCKER_TLS_CERTDIR: /certs
 
   sonarqube:
     image: sonarqube:8.4.0-community
+    restart: always
     ports:
       - "7000:9000"
     volumes:
       - sonarqube_data:/opt/sonarqube/data
       - sonarqube_log:/opt/sonarqube/logs
-
-  registry:
-    restart: always
-    image: registry:2
-    ports:
-      - 8000:5000
-    volumes: 
-      - registry_data:/var/lib/registry    
-
+    deploy:
+      resources:
+        limits:
+          memory: 2048M
+          cpus: '1'
+        reservations:
+          memory: 2048M
 
 volumes:
   gitlab_config:
   gitlab_log:
   gitlab_data:
   jenkins_data:
+  jenkins_docker_certs:
   sonarqube_data:
   sonarqube_log:
-  registry_data:
