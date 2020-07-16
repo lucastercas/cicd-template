@@ -15,10 +15,10 @@ test:
 		maven:latest mvn test
 
 scan:
-	@mvn sonar:sonar \
+	@mvn clean package sonar:sonar \
 			-Dsonar.projectKey=org.springframework:gs-spring-boot-docker \
 			-Dsonar.host.url=http://$(SONAR_HOST) \
-			-Dsonar.login=$(SONAR_LOGIN)
+			-Dsonar.login=$(SONAR_TOKEN)
 
 build_image:
 	@docker build -t lucastercas/spring .
@@ -27,4 +27,4 @@ push_image:
 	@docker push lucastercas/spring
 
 deploy:
-	ansible-playbook -i ansible/hosts ansible/site.yml -v
+	ansible-playbook -i ansible/hosts.yml ansible/site.yml -v

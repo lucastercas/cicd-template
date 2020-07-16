@@ -21,7 +21,7 @@ services:
           memory: 2048M
 
   jenkins:
-    # image: jenkins/jenkins
+    image: lucastercas/jenkins
     restart: always
     build:
       context: jenkins
@@ -36,11 +36,12 @@ services:
       DOCKER_TLS_VERIFY: 1
       DOCKER_USER: ${DOCKER_USER}
       DOCKER_PASSWORD: ${DOCKER_PASSWORD}
+      SONAR_TOKEN: ${SONAR_TOKEN}
     deploy:
       resources:
         limits:
           memory: 1024M
-          cpus: '1'
+          cpus: '2'
         reservations:
           memory: 1024M
 

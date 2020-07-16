@@ -16,6 +16,6 @@ RUN curl -fsSL https://get.docker.com -o get-docker.sh && \
 
 RUN pip3 install docker ansible
 
-RUN /usr/local/bin/install-plugins.sh gitlab-plugin sonarqube-plugin
+RUN /usr/local/bin/install-plugins.sh gitlab-plugin sonar
 
 # USER jenkins:jenkins

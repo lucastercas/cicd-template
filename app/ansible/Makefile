@@ -11,7 +11,7 @@ run_playbook:
 	# 	-w /etc/ansible \
 	# 	williamyeh/ansible:alpine3 \
 	# 	ansible-playbook -i hosts site.yml -vvv
-	ansible -i hosts site.yml -vvv
+	ansible-playbook -i hosts site.yml -vvv
 
 create_role:
 	@docker run --rm -it \

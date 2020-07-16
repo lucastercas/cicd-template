@@ -2,7 +2,6 @@ pipeline {
     agent any
     environment {
         PROJECT_KEY = 'org.springframework:gs-spring-boot-docker'
-        SONAR_LOGIN = 'e6f696687d9b343872358aaf19371fe5dfdca63f'
         SONAR_URL = 'http://sonarqube:9000'
     }
     options {
@@ -27,7 +26,7 @@ pipeline {
         stage('SonarQube Analisys') {
             steps {
                 withSonarQubeEnv('Local SonarQube') {
-                    sh "mvn clean package sonar:sonar -Dsonar.projectKey=${PROJECT_KEY} -Dsonar.host.url=${SONAR_URL} -Dsonar.login=${SONAR_LOGIN}"
+                    sh "mvn clean package sonar:sonar -Dsonar.projectKey=${PROJECT_KEY} -Dsonar.host.url=${SONAR_URL} -Dsonar.login=admin -Dsonar.password=admin"
                 }
             }
         }

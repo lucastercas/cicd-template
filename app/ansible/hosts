@@ -1,9 +1,0 @@
-[local]
-10.0.3.57
-
-[local:vars]
-ansible_connection=ssh
-ansible_user=lucastercas
-ansible_ssh_pass=gxYGQAm8
-ansible_python_interpreter: /usr/bin/python3
-ansible_ssh_common_args='-o StrictHostKeyChecking=no'
