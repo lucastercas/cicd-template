@@ -16,7 +16,7 @@ services:
       resources:
         limits:
           memory: 3072M
-          cpus: '4'
+          cpus: "4"
         reservations:
           memory: 2048M
 
@@ -41,14 +41,13 @@ services:
       resources:
         limits:
           memory: 1024M
-          cpus: '2'
+          cpus: "2"
         reservations:
           memory: 1024M
 
   docker:
     image: docker:19.03.12-dind
     restart: always
-    # alias: docker
     privileged: true
     volumes:
       - jenkins_data:/var/jenkins_home
@@ -57,7 +56,7 @@ services:
       resources:
         limits:
           memory: 1024M
-          cpus: '1'
+          cpus: "1"
         reservations:
           memory: 1024M
     environment:
@@ -75,15 +74,22 @@ services:
       resources:
         limits:
           memory: 2048M
-          cpus: '1'
+          cpus: "1"
         reservations:
           memory: 2048M
 
 volumes:
   gitlab_config:
+    driver: local
   gitlab_log:
+    driver: local
   gitlab_data:
+    driver: local
   jenkins_data:
+    driver: local
   jenkins_docker_certs:
+    driver: local
   sonarqube_data:
+    driver: local
   sonarqube_log:
+    driver: local
