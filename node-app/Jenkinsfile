@@ -1,0 +1,45 @@
+pipeline {
+ 
+  agent any
+ 
+  environment {}
+  
+  options {
+    skipStagesAfterUnstable()
+  }
+
+  stages {
+        
+    stage("Test") {
+      agent {
+        docker {
+          image 'node:12-alpine'
+        }
+      }
+      steps {
+        sh "yarn test"
+      }
+    }
+    
+    stage("Sonar Analisys") {
+      steps {
+        withSonarQubeEnv("sonarqube-server") {
+          sh "echo Sonar"
+        }
+      }
+    }
+
+    stage("Quality Gate") {
+      steps {
+        sh "echo Gate"
+      }
+    }
+    
+    stage("Build") {
+      steps {
+        sh "yarn build"
+      }
+    }
+
+  }
+}

@@ -1,6 +1,14 @@
 version: "3.7"
 
 services:
+  traefik:
+    image: traefik
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+      - 8080:8080
+
   gitlab:
     image: gitlab/gitlab-ce:13.1.4-ce.0
     restart: always
@@ -15,10 +23,8 @@ services:
     deploy:
       resources:
         limits:
-          memory: 3072M
-          cpus: "4"
-        reservations:
-          memory: 2048M
+          memory: 1024M
+          cpus: "1"
 
   jenkins:
     image: lucastercas/jenkins
@@ -41,9 +47,7 @@ services:
       resources:
         limits:
           memory: 1024M
-          cpus: "2"
-        reservations:
-          memory: 1024M
+          cpus: "1"
 
   docker:
     image: docker:19.03.12-dind
@@ -52,15 +56,13 @@ services:
     volumes:
       - jenkins_data:/var/jenkins_home
       - jenkins_docker_certs:/certs/client
+      environment:
+        DOCKER_TLS_CERTDIR: /certs
     deploy:
       resources:
         limits:
           memory: 1024M
           cpus: "1"
-        reservations:
-          memory: 1024M
-    environment:
-      DOCKER_TLS_CERTDIR: /certs
 
   sonarqube:
     image: sonarqube:8.4.0-community
@@ -69,14 +71,11 @@ services:
       - "7000:9000"
     volumes:
       - sonarqube_data:/opt/sonarqube/data
-      - sonarqube_log:/opt/sonarqube/logs
     deploy:
       resources:
         limits:
-          memory: 2048M
+          memory: 1024M
           cpus: "1"
-        reservations:
-          memory: 2048M
 
 volumes:
   gitlab_config:
@@ -90,6 +89,4 @@ volumes:
   jenkins_docker_certs:
     driver: local
   sonarqube_data:
-    driver: local
-  sonarqube_log:
     driver: local

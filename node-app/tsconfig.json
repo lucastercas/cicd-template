@@ -1,0 +1,18 @@
+{
+  "compileOnSave": true,
+  "include": ["src"],
+  "baseUrl": ".",
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "target": "es2018",
+    "module": "commonjs",
+    "sourceMap": true,
+    "outDir": "dist",
+    "baseUrl": "./src"
+  },
+  "watchOptions": {
+    "watchFile": "useFsEvents",
+    "watchDirectory": "useFsEvents",
+    "fallbackPolling": "dynamicPriority"
+  }
+}
