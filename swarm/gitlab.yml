@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:13.1.4-ce.0
+    restart: always
+    ports:
+      - "5000:80"
+    networks:
+      - traefik-public
+    volumes:
+      - gitlab-config:/etc/gitlab
+      - gitlab-data:/var/opt/gitlab
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          memory: 1024M
+          cpus: "1"
+      restart_policy:
+        condition: on-failure
+    labels:
+      - traefik.enable=true
+      - traefik.http.routes.gitlab.rule=Host(`gitlab.${DOMAIN_NAME}`)
+      - traefik.http.routes.gitlab.entrypoints=web
+      - traefik.http.services.gitlab.loadbalancer.server.port=80
+volumes:
+  gitlab-config:
+  gitlab-data:
+
+networks:
+  traefik-public:
+    external: true

@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  traefik:
+    image: traefik
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+      - 8080:8080
+    networks:
+      - traefik-public
+    command:
+      - --api.insecure=true # DISABLE IN PRODUCTION
+      - --api.dashboard=true
+      - --api.debug=true
+      - --log.level=DEBUG
+      - --providers.docker=true
+      - --providers.docker.swarmMode=true
+      - --providers.docker.exposeByDefault=false
+      - --providers.docker.network=traefik-public
+      - --entrypoints.web.address=:80
+      - --entrypoints.web-secured.address=:443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          memory: 521M
+          cpus: "0.5"
+      placement:
+        constraints:
+          - node.role == manager
+      restart_policy:
+        condition: on-failure
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.api.rule=Host(`traefik.${DOMAIN_NAME}`)
+        - traefik.http.routers.api.service=api@internal
+        - traefik.http.services.api.loadbalancer.server.port=80
+
+networks:
+  traefik-public:
+    external: true

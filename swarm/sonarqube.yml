@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  sonarqube:
+    image: sonarqube:8.4.0-community
+    networks:
+      - traefik-public
+    volumes:
+      - sonar-data:/opt/sonarqube/data
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          memory: 1024M
+          cpus: "1"
+      restart_policy:
+        condition: on-failure
+      labels:
+        - traefik.enable=true
+        - traefik.http.routes.sonar.rule=Host(`sonar.${DOMAIN_NAME}`)
+        - traefik.http.routes.sonar.entrypoints=web
+        - traefik.http.services.sonar.loadbalancer.server.port=9000
+
+volumes:
+  sonar-data:
+
+networks:
+  traefik-public:
+    external: true

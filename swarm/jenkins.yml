@@ -1,0 +1,55 @@
+version: "3.8"
+
+services:
+  jenkins:
+    image: lucastercas/jenkins
+    restart: always
+    networks:
+      - traefik-public
+    build:
+      context: jenkins
+    volumes:
+      - jenkins-data:/var/jenkins/home
+      - docker-certs:/certs/client
+    environment:
+      DOCKER_HOST: "tcp://docker:2376"
+      DOCKER_CERT_PATH: "/certs/client"
+      DOCKER_TLS_VERIFY: 1
+      DOCKER_USER: ${DOCKER_USER}
+      DOCKER_PASSWORD: ${DOCKER_PASSWORD}
+      SONAR_TOKEN: ${SONAR_TOKEN}
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          memory: 1024M
+          cpus: "1"
+      restart_policy:
+        condition: on-failure
+      labels:
+        - traefik.enable=true
+        - traefik.http.routes.jenkins.rule=Host(`jenkins.${DOMAIN_NAME}`)
+        - traefik.http.routes.jenkins.entrypoints=web
+        - traefik.http.services.jenkins.loadbalancer.server.port=8080
+
+  docker:
+    image: docker:19.03.12-dind
+    restart: always
+    privileged: true
+    volumes:
+      - jenkins-data:/var/jenkins_home
+      - docker-certs:/certs/client
+    environment:
+      DOCKER_TLS_CERTDIR: /certs
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+          cpus: "1"
+volumes:
+  jenkins-data:
+  docker-certs:
+
+networks:
+  traefik-public:
+    external: true
