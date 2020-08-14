@@ -13,22 +13,24 @@ The swarm docker cluster consists of 5 services:
 4. Jenkins
 5. Docker in Docker
 
-The first one, `traefik`, is a reverse proxy, that acts as a loadbalander
-and dns. `gitlab` are `sonarqube`, and the `Jenkins` is my own image, that
+The first one, `traefik`, is a reverse proxy that acts as a loadbalander
+and dns. `gitlab` and `sonarqube` are self explanatory,
+and the `Jenkins` is my own image, that
 contains extra packages, python modules and jenkins plugins which can be
 found on [Docker Hub](https://hub.docker.com/r/lucastercas/jenkins) and
 on [GitHub](https://github.com/lucastercas/docker-images).
 
-The `jenkins` also points its `DOCKER_HOST` environment variable to
-the last container, to use it as the engine to run docker images.
-The last one is a `docker-in-docker` container, which is an image that
+The `jenkins` one points its `DOCKER_HOST` environment variable to
+the `docker-in-docker` service, to use it as the engine to run docker images.
+This last service, the `docker-in-docker` container, is an image that
 allows you to run a docker container inside another docker container. It
 is used to run the docker agents of jenkin, so each time a jenkins agent
 is run, there are 3 containers: the jenkins one, the docker-in-docker
 one, and inside it the jenkins agent one.
 
 If you don't want to, or don't have a DNS, you can still access
-the service on its ports, on `localhost`. GitLab uses port `2000:80`, Jenkins uses ports `3000:5000` and `3001:8080` and SonarQube
+the service on its ports, on `localhost`. GitLab uses port `2000:80`,
+Jenkins uses ports `3000:5000` and `3001:8080` and SonarQube
 uses port `3000:9000`.
 
 ![Container Diagram](docs/image1.png)
@@ -46,7 +48,6 @@ one, with `Maven`, `Spring Boot` and `Jacoco` and a `TypeScript` one, with
 ### GitLab
 
 ### SonarQube
-
 
 ## Instalação Inicial
 
