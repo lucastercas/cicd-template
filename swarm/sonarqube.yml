@@ -5,6 +5,8 @@ services:
     image: sonarqube:8.4.0-community
     networks:
       - traefik-public
+    ports:
+      - 3000:9000
     volumes:
       - sonar-data:/opt/sonarqube/data
     deploy:

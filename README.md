@@ -23,9 +23,30 @@ The `jenkins` also points its `DOCKER_HOST` environment variable to
 the last container, to use it as the engine to run docker images.
 The last one is a `docker-in-docker` container, which is an image that
 allows you to run a docker container inside another docker container. It
-is used to run the docker agents of jenkins.
+is used to run the docker agents of jenkin, so each time a jenkins agent
+is run, there are 3 containers: the jenkins one, the docker-in-docker
+one, and inside it the jenkins agent one.
+
+If you don't want to, or don't have a DNS, you can still access
+the service on its ports, on `localhost`. GitLab uses port `2000:80`, Jenkins uses ports `3000:5000` and `3001:8080` and SonarQube
+uses port `3000:9000`.
 
 ![Container Diagram](docs/image1.png)
+
+## Apps
+
+As said, this repo also contains 2 apps to test the pipeline, a `Java`
+one, with `Maven`, `Spring Boot` and `Jacoco` and a `TypeScript` one, with
+`Node.js`, `Koa` and `Jest`.
+
+## Configuration of Services
+
+### Jenkins
+
+### GitLab
+
+### SonarQube
+
 
 ## Instalação Inicial
 

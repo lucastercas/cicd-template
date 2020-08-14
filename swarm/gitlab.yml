@@ -5,7 +5,7 @@ services:
     image: gitlab/gitlab-ce:13.1.4-ce.0
     restart: always
     ports:
-      - "5000:80"
+      - "2000:80"
     networks:
       - traefik-public
     volumes:
