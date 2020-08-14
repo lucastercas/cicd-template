@@ -28,6 +28,9 @@ is used to run the docker agents of jenkin, so each time a jenkins agent
 is run, there are 3 containers: the jenkins one, the docker-in-docker
 one, and inside it the jenkins agent one.
 
+To change the domain name of the services on swarm, modify the
+`traefik.http.routes.__.role.Host()` label.
+
 If you don't want to, or don't have a DNS, you can still use
 the service using `docker-compose` and the compose file provided,
 however, this isn't recommended on production. The services will
@@ -48,9 +51,35 @@ one, with `Maven`, `Spring Boot` and `Jacoco` and a `TypeScript` one, with
 ### Jenkins
 
 When you first start the jenkins container, it will ask for a initial token,
-which can be :
+that resides on `/var/jenkins_home/secrets/initialAdminPassword`. You can
+execute `docker exec <container> cat /var/jenkins_home/secrets/initialAdminPassword`
+to get it.
+
+After this, just follow the screens to setup Jenkins.
 
 ### GitLab
+
+When first accessing GitLab, you will have to create a new password
+for the `root` user. Then login as this user, and create a project,
+projects are how GitLab name git repositories.
+
+Then go to the directory of the project, and add the remote of the
+newly create project, or clone it. Note that this repository
+provides a maven app and a node app for testing purposes:
+
+```bash
+$ cd app/node
+$ git init
+$ git remote add origin http://<gitlab-domain>/<gitlab-user>/<project-name>.git
+$ git add .
+$ git commit -m "First Commit"
+$ git push origin master
+```
+
+If you didn't change the user of gitlab, the `gitlab-user` will be `root`,
+the `project-name` will be the name of the project you created and
+`gitlab-domain` will the the url of the gitlab, either `localhost:3000`
+if you are using docker-compose or `gitlab.yourdomain` if using swarm.
 
 ### SonarQube
 
@@ -78,15 +107,6 @@ which can be :
    projeto, e clicar em _Create project_.
 
 Para adicionar o código da aplicação para o repositório:
-
-```bash
-$ cd app
-$ git init
-$ git remote add origin http://localhost:5000/root/<project-name>.git
-$ git add .
-$ git commit -m "First Commit"
-$ git push origin master
-```
 
 ### SonarQube
 

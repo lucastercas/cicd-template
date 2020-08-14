@@ -2,7 +2,7 @@
 
 # Start docker compose
 up:
-	@docker-compose --compatibility up --build
+	@docker-compose --compatibility up
 
 # Get initial key of jenkins
 get_key:
