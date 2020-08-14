@@ -28,10 +28,12 @@ is used to run the docker agents of jenkin, so each time a jenkins agent
 is run, there are 3 containers: the jenkins one, the docker-in-docker
 one, and inside it the jenkins agent one.
 
-If you don't want to, or don't have a DNS, you can still access
-the service on its ports, on `localhost`. GitLab uses port `2000:80`,
+If you don't want to, or don't have a DNS, you can still use
+the service using `docker-compose` and the compose file provided,
+however, this isn't recommended on production. The services will
+be available on its ports on `localhost`. GitLab uses port `2000:80`,
 Jenkins uses ports `3000:5000` and `3001:8080` and SonarQube
-uses port `3000:9000`.
+uses port `4000:9000`.
 
 ![Container Diagram](docs/image1.png)
 
