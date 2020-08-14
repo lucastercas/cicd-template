@@ -17,8 +17,8 @@ The first one, `traefik`, is a reverse proxy that acts as a loadbalander
 and dns. `gitlab` and `sonarqube` are self explanatory,
 and the `Jenkins` is my own image, that
 contains extra packages, python modules and jenkins plugins which can be
-found on [Docker Hub](https://hub.docker.com/r/lucastercas/jenkins) and
-on [GitHub](https://github.com/lucastercas/docker-images).
+found on my [Docker Hub Repo](https://hub.docker.com/r/lucastercas/jenkins) or
+on my [GitHub Repo](https://github.com/lucastercas/docker-images).
 
 The `jenkins` one points its `DOCKER_HOST` environment variable to
 the `docker-in-docker` service, to use it as the engine to run docker images.
