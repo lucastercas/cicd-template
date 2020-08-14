@@ -1,6 +1,31 @@
-# Modulo 1
+# Example CI/CD pipeline with Jenkins, SonarQube and GitLab
 
-## Requisitos
+Example jenkins CI/CD pipeline with Jenkins, SonarQube and GitLab.
+There are 2 projects, one in maven and other on node in TypeScript
+
+## Swarm Stack
+
+The swarm docker cluster consists of 5 services:
+
+1. Traefik
+2. GitLab
+3. SonarQube
+4. Jenkins
+5. Docker in Docker
+
+The first one, `traefik`, is a reverse proxy, that acts as a loadbalander
+and dns. `gitlab` are `sonarqube`, and the `Jenkins` is my own image, that
+contains extra packages, python modules and jenkins plugins which can be
+found on [Docker Hub](https://hub.docker.com/r/lucastercas/jenkins) and
+on [GitHub](https://github.com/lucastercas/docker-images).
+
+The `jenkins` also points its `DOCKER_HOST` environment variable to
+the last container, to use it as the engine to run docker images.
+The last one is a `docker-in-docker` container, which is an image that
+allows you to run a docker container inside another docker container. It
+is used to run the docker agents of jenkins.
+
+![Container Diagram](docs/image1.png)
 
 ## Instalação Inicial
 
@@ -9,21 +34,24 @@
 ### Configurando os Serviços
 
 ### Jenkins
+
 1. Configurar Jenkins
-Para o jenkins, a primeira vez vai pedir uma chave, tem o comando
-`make get_key` no Makefile desse repositório, que vai exibir essa chave.
-Após inserir a chave, clicar em *Install suggested plugins*, e depois
-criar um usuário e seguir as telas.
+   Para o jenkins, a primeira vez vai pedir uma chave, tem o comando
+   `make get_key` no Makefile desse repositório, que vai exibir essa chave.
+   Após inserir a chave, clicar em _Install suggested plugins_, e depois
+   criar um usuário e seguir as telas.
 
 ### GitLab
+
 1. Configurar GitLab
-Criar a senha pro usuário `root`.
+   Criar a senha pro usuário `root`.
 
 1. Criar Projeto no GitLab
-Na interface do GitLab, clicar em *Create a Project*, botar o nome do
-projeto, e clicar em *Create project*.
+   Na interface do GitLab, clicar em _Create a Project_, botar o nome do
+   projeto, e clicar em _Create project_.
 
 Para adicionar o código da aplicação para o repositório:
+
 ```bash
 $ cd app
 $ git init
@@ -32,29 +60,31 @@ $ git add .
 $ git commit -m "First Commit"
 $ git push origin master
 ```
+
 ### SonarQube
+
 1. Configurar SonarQube
-Acessar o site, e logar como *admin*, senha *admin*.
+   Acessar o site, e logar como _admin_, senha _admin_.
 
 2. Criar um novo projeto
-Ao entrar, clicar em *Create new project*, a project key é
-*org.springframework:gs-spring-boot-docker*, e o display name
-pode ser qualquer um. Ao completar esse passo, o SonarQube
-vai pedir para criar um nome para o token, para ele gerar.
+   Ao entrar, clicar em _Create new project_, a project key é
+   _org.springframework:gs-spring-boot-docker_, e o display name
+   pode ser qualquer um. Ao completar esse passo, o SonarQube
+   vai pedir para criar um nome para o token, para ele gerar.
 
 3. Configurar o token
-Copiar o token gerado pelo SonarQube, editar o arquivo
-`.env`, e criar a variavel `SONAR_TOKEN`, com o valor
-dela sendo o token gerado.
+   Copiar o token gerado pelo SonarQube, editar o arquivo
+   `.env`, e criar a variavel `SONAR_TOKEN`, com o valor
+   dela sendo o token gerado.
 
 ### GitLab e Jenkins
 
 1. Adicionar Pipeline no Jenkins
-Na interface do Jenkins, clicar em *Novo job* -> *Pipeline*, digitar um nome
-para a pipeline, e clicar em *Criar*
+   Na interface do Jenkins, clicar em _Novo job_ -> _Pipeline_, digitar um nome
+   para a pipeline, e clicar em _Criar_
 
-Nas abas em cima, ir para *Pipeline* -> *Definition*, e selecionar
-*Pipeline script from SCM*. Em SMC, selecionar Git, adicionar a
+Nas abas em cima, ir para _Pipeline_ -> _Definition_, e selecionar
+_Pipeline script from SCM_. Em SMC, selecionar Git, adicionar a
 url do repositório (`http://gitlab/root/<project-name>`), e adicionar
 as credenciais, inserindo o username e password do usuário
 do GitLab.
@@ -68,5 +98,6 @@ do GitLab.
 2. Configurar o WebHook do SonarQube
 
 ## Referências
+
 1. [Java App with Maven](https://www.jenkins.io/doc/tutorials/build-a-java-app-with-maven/)
-2. 
+2.
