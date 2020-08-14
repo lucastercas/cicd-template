@@ -4,8 +4,6 @@ services:
   gitlab:
     image: gitlab/gitlab-ce:13.1.4-ce.0
     restart: always
-    ports:
-      - "2000:80"
     networks:
       - traefik-public
     volumes:

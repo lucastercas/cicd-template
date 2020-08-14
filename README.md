@@ -45,6 +45,9 @@ one, with `Maven`, `Spring Boot` and `Jacoco` and a `TypeScript` one, with
 
 ### Jenkins
 
+When you first start the jenkins container, it will ask for a initial token,
+which can be :
+
 ### GitLab
 
 ### SonarQube
