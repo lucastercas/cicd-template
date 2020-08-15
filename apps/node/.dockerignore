@@ -1,0 +1,7 @@
+dist
+.dockerignore
+Dockerfile
+Jenkinsfile
+Makefile
+sonar-reports.properties
+node_modules
