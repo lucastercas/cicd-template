@@ -38,6 +38,7 @@
       "**/*.{ts,js}",
       "!**/node_modules/**",
       "!**/build/**",
+      "!**/dist/**",
       "!**/coverage/**"
     ],
     "transform": {
@@ -59,7 +60,8 @@
     "testPathIgnorePatterns": [
       "/node_modules/",
       "/build/",
-      "/coverage/"
+      "/coverage/",
+      "/dist/"
     ]
   }
 }
