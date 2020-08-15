@@ -11,3 +11,5 @@
 **/dist
 
 **/*.retry
+**/coverage/*
+**/.scannerwork
