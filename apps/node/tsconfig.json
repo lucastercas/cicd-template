@@ -1,8 +1,9 @@
 {
+  "version": "2.0.2",
   "compileOnSave": true,
-  "include": ["src"],
-  "baseUrl": ".",
+  "include": ["./src/**/*"],
   "compilerOptions": {
+    "lib": ["es5", "es6", "dom"],
     "experimentalDecorators": true,
     "target": "es2018",
     "module": "commonjs",
