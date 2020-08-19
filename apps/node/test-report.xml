@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testExecutions version="1">
   <file path="/home/lucastercas/workspace/projets/cicd-template/apps/node/tests/index.test.ts">
-    <testCase name="Hello work works" duration="24"/>
+    <testCase name="Hello work works" duration="20"/>
   </file>
   <file path="/home/lucastercas/workspace/projets/cicd-template/apps/node/tests/server.test.ts">
     <testCase name="Server works" duration="8"/>
